@@ -9,15 +9,19 @@ For more details, see the [official repository](https://github.com/kei-s/qmk_fir
 ```
 $ brew tap osx-cross/avr
 $ brew tap PX4/homebrew-px4
-$ brew install avr-gcc@7 dfu-programmer dfu-util gcc-arm-none-eabi avrdude
+$ brew install avr-gcc
+$ brew install dfu-programmer
+$ brew install dfu-util
+$ brew install gcc-arm-none-eabi
+$ brew install avrdude
 ```
 
 # Compile
 
 ```
 $ git clone https://github.com/kei-s/qmk_firmware.git
-$ cd qmk_firmware/keyboards/ergodox_ez
-$ git clone https://github.com/naughie/ergodox_ez_naughie.git keymaps/naughie
-$ make KEYMAP=naughie
+$ cd qmk_firmware
+$ git clone https://github.com/naughie/ergodox_ez_naughie.git keyboards/ergodox_ez/keymaps/naughie
+$ make ergodox_ez:naughie
 ```
 
