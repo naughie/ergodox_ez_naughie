@@ -11,8 +11,14 @@ enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
   EPRM,
   VRSN,
-  RGB_SLD
+  RGB_SLD,
+  NCOLON, // LSFT(KC_SCLN) : LSFT(KC_QUOT)
+  NSMCLN, // KC_SCLN : KC_QUOT
+  NENTER, // KC_ENT : LSFT(KC_MINS)
 };
+
+// KC_HENK JIS henkan
+// KC_MHEN JIS muhenkan
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
@@ -54,6 +60,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           KC_H,   KC_J,  KC_K,   KC_L,   LT(MDIA, KC_SCLN),GUI_T(KC_QUOT),
              MEH_T(KC_NO),KC_N,   KC_M,  KC_COMM,KC_DOT, CTL_T(KC_SLSH),   KC_RSFT,
                                   KC_UP, KC_DOWN,KC_LBRC,KC_RBRC,          KC_FN1,
+             KC_LALT,        CTL_T(KC_ESC),
+             KC_PGUP,
+             KC_PGDN,KC_TAB, KC_ENT
+    ),
+[BASE] = LAYOUT_ergodox(
+        // left hand
+        KC_EQL,         KC_1,   KC_2,         KC_3,   KC_4,   KC_5,KC_LEFT,
+        KC_DELT,        KC_BSLS,KC_COMM,      KC_DOT, KC_P,   KC_Z,TG(SYMB),
+        KC_BSPC,        KC_A,   KC_O,         KC_E,   KC_U,   KC_I,
+        KC_LSFT,        NCOLON, NSMCLN,       KC_Q,   KC_Y,   KC_X,ALL_T(KC_NO),
+        LT(SYMB,KC_GRV),KC_QUOT,LALT(KC_LSFT),KC_LEFT,KC_RGHT,
+                                              ALT_T(KC_APP),  KC_LGUI,
+                                                              KC_HOME,
+                                               KC_SPC,KC_BSPC,KC_END,
+        // right hand
+             KC_RGHT,     KC_6,KC_7,  KC_8,   KC_9,   KC_0,   KC_MINS,
+             TG(SYMB),    KC_G,KC_M,  KC_S,   KC_F,   KC_R,   KC_T,
+                          KC_N,KC_H,  KC_J,   KC_K,   KC_L,   KC_W
+             MEH_T(KC_NO),KC_B,NENTER,KC_D,   KC_C,   KC_V,   KC_RSFT,
+                               KC_UP, KC_DOWN,KC_LBRC,KC_RBRC,KC_FN1,
              KC_LALT,        CTL_T(KC_ESC),
              KC_PGUP,
              KC_PGDN,KC_TAB, KC_ENT
@@ -185,6 +211,42 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         #ifdef RGBLIGHT_ENABLE
           rgblight_mode(1);
         #endif
+      }
+      return false;
+      break;
+    case NCOLON:
+      if (record->event.pressed) {
+        SEND_STRING(":");
+      }
+      return false;
+      break;
+    case LSFT(NCOLON):
+      if (record->event.pressed) {
+        SEND_STRING("\"");
+      }
+      return false;
+      break;
+    case NSMCLN:
+      if (record->event.pressed) {
+        SEND_STRING(";");
+      }
+      return false;
+      break;
+    case LSFT(NSMCLN):
+      if (record->event.pressed) {
+        SEND_STRING("'");
+      }
+      return false;
+      break;
+    case NENTER:
+      if (record->event.pressed) {
+        SEND_STRING("\n");
+      }
+      return false;
+      break;
+    case LSFT(NENTER):
+      if (record->event.pressed) {
+        SEND_STRING("_");
       }
       return false;
       break;
